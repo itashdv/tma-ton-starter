@@ -1,0 +1,18 @@
+{
+  "shop.tagline": "Pay in TON and USDT, no middlemen",
+  "catalog.title": "Catalog",
+  "catalog.empty": "No products yet",
+  "catalog.comingSoon": "Catalog and checkout arrive in the next stage",
+  "product.buy": "Buy",
+  "checkout.connect": "Connect wallet",
+  "checkout.pay": "Pay",
+  "checkout.allowWrite": "Allow the bot to message you to receive the receipt in chat",
+  "order.pending": "Waiting for payment…",
+  "order.paid": "Paid",
+  "order.expired": "Payment window expired",
+  "order.newOrder": "Create a new order",
+  "notify.paid": "Order {{orderId}} paid: {{product}}",
+  "notify.open": "Open order",
+  "error.openInTelegram": "Open the shop from Telegram",
+  "error.sessionExpired": "Session expired, reopen the app"
+}

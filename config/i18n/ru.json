@@ -1,0 +1,18 @@
+{
+  "shop.tagline": "Оплата в TON и USDT без посредников",
+  "catalog.title": "Каталог",
+  "catalog.empty": "Товаров пока нет",
+  "catalog.comingSoon": "Каталог и оплата появятся на следующем этапе",
+  "product.buy": "Купить",
+  "checkout.connect": "Подключить кошелёк",
+  "checkout.pay": "Оплатить",
+  "checkout.allowWrite": "Разрешите боту писать вам, чтобы получить чек в чате",
+  "order.pending": "Ожидаем оплату…",
+  "order.paid": "Оплачено",
+  "order.expired": "Срок оплаты истёк",
+  "order.newOrder": "Создать новый заказ",
+  "notify.paid": "Заказ {{orderId}} оплачен: {{product}}",
+  "notify.open": "Открыть заказ",
+  "error.openInTelegram": "Откройте магазин из Telegram",
+  "error.sessionExpired": "Сессия истекла, откройте приложение заново"
+}

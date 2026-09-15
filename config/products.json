@@ -1,0 +1,31 @@
+[
+  {
+    "slug": "ton-starter-guide",
+    "title": "Гайд: как принимать TON и USDT без смарт-контрактов",
+    "description": "PDF на 40 страниц: TonConnect, toncenter v3, подтверждение платежей и типовые ошибки.",
+    "priceTon": "1.5",
+    "priceUsdt": "5",
+    "deliveryPayload": "https://example.com/downloads/ton-starter-guide.pdf?token=demo",
+    "deliverInChat": true,
+    "sortOrder": 10
+  },
+  {
+    "slug": "icon-pack-crypto",
+    "title": "Набор иконок «Crypto UI»",
+    "description": "120 векторных иконок для кошельков и dApp в форматах SVG и Figma.",
+    "priceTon": "3",
+    "priceUsdt": "9.99",
+    "deliveryPayload": "https://example.com/downloads/icon-pack-crypto.zip?token=demo",
+    "deliverInChat": false,
+    "sortOrder": 20
+  },
+  {
+    "slug": "promo-code-10",
+    "title": "Промокод на консультацию",
+    "description": "Скидка 10% на часовую консультацию по запуску Mini App. Код придёт после оплаты.",
+    "priceUsdt": "1",
+    "deliveryPayload": "TMA-DEMO-10",
+    "deliverInChat": true,
+    "sortOrder": 30
+  }
+]

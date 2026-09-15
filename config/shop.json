@@ -1,0 +1,18 @@
+{
+  "name": "TON Digital Shop",
+  "description": "Демо-магазин цифровых товаров с оплатой в TON и USDT прямо в Telegram.",
+  "defaultLocale": "ru",
+  "locales": ["ru", "en"],
+  "currencies": ["TON", "USDT"],
+  "usdt": {
+    "label": "USDT",
+    "decimals": 6
+  },
+  "support": {
+    "url": "https://t.me/example_support"
+  },
+  "branding": {
+    "accentColor": "#0098EA",
+    "icon": "icon-180.png"
+  }
+}
