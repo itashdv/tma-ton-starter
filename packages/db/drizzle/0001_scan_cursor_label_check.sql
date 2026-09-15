@@ -1,0 +1,1 @@
+ALTER TABLE "scan_cursors" ADD CONSTRAINT "scan_cursors_label_known" CHECK ("scan_cursors"."label" IN ('ton_wallet', 'usdt_jetton_wallet'));
