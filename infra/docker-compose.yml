@@ -1,0 +1,30 @@
+# Postgres for the shop: databases `tma` (app) and `tma_test` (integration tests).
+#   docker compose -f infra/docker-compose.yml up -d --wait
+# The password defaults to `tma` for local development only. On a server export a real one
+# (or put POSTGRES_PASSWORD=... into infra/.env, which is gitignored) and use it in DATABASE_URL.
+# init.sql runs only on an empty volume; `docker compose -f infra/docker-compose.yml down -v`
+# wipes the data and re-initialises.
+name: tma-ton-starter
+
+services:
+  pg:
+    image: postgres:16
+    container_name: pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tma
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tma}
+      POSTGRES_DB: tma
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U tma -d tma']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

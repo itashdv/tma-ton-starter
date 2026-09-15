@@ -1,0 +1,9 @@
+node_modules
+dist
+.next
+pnpm-lock.yaml
+packages/db/drizzle
+apps/web/next-env.d.ts
+# Root-level project docs are formatted by hand; README is still checked.
+/*.md
+!/README.md

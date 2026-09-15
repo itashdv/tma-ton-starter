@@ -1,0 +1,42 @@
+{
+  "name": "tma-ton-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Telegram Mini App shop template with TON and USDT payments",
+  "license": "MIT",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n web,api,worker -c blue,green,yellow \"pnpm --filter @tma/web dev\" \"pnpm --filter @tma/api dev\" \"pnpm --filter @tma/api dev:worker\"",
+    "build": "pnpm --filter @tma/api build && pnpm --filter @tma/web build",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit --project web --project repo",
+    "test:integration": "vitest run --project integration",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -p tsconfig.json && pnpm -r --workspace-concurrency=1 typecheck",
+    "db:generate": "pnpm --filter @tma/db generate",
+    "db:migrate": "pnpm --filter @tma/db migrate",
+    "db:seed": "pnpm --filter @tma/db seed"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "22.20.2",
+    "concurrently": "10.0.5",
+    "dotenv": "17.4.2",
+    "eslint": "10.10.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.12.0",
+    "jsdom": "30.0.1",
+    "prettier": "3.9.6",
+    "tsx": "4.23.13",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0",
+    "vitest": "4.1.11"
+  }
+}

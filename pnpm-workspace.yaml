@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+
+# pnpm 11 blocks postinstall scripts unless listed here.
+allowBuilds:
+  esbuild: true
+  '@tailwindcss/oxide': true
+  sharp: true
