@@ -19,7 +19,7 @@
 ## Стек (не менять без обсуждения)
 - Монорепо pnpm workspaces: apps/web, apps/api, packages/db, packages/shared
 - apps/web: Next.js 15 (App Router), TypeScript, Tailwind v4, shadcn/ui,
-  @telegram-apps/sdk-react, @tonconnect/ui-react
+  @tma.js/sdk-react (преемник @telegram-apps/sdk-react), @tonconnect/ui-react
 - apps/api: Fastify 5, TypeScript, zod для валидации
 - packages/db: Drizzle ORM + PostgreSQL (DATABASE_URL из .env)
 - Тесты: vitest (unit + integration), Playwright не используем на этом этапе
@@ -46,5 +46,6 @@
 - pnpm lint / pnpm typecheck
 
 ## Окружение на сервере
-- Postgres: docker-контейнер pg, порт 5432, БД tma
-- Caddy проксирует shop.<домен> → :3000, api.<домен> → :3001
+- Postgres: docker-контейнер pg (infra/docker-compose.yml), порт 5432, БД tma и tma_test
+- nginx проксирует shop.<домен> → :3000, api.<домен> → :3001;
+  Caddy — только пример конфигурации в deploy/
