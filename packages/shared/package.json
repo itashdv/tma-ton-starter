@@ -1,0 +1,17 @@
+{
+  "name": "@tma/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure TypeScript shared by api, worker and web: amounts, order ids, config schemas, API types",
+  "exports": {
+    ".": "./src/index.ts",
+    "./ton": "./src/ton/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  }
+}
