@@ -1,0 +1,149 @@
+{
+  "recordedAt": "2026-09-16T11:11:44.970Z",
+  "network": "testnet",
+  "source": "https://testnet.toncenter.com/api/v3/transactions?hash=c2f06cdff2a5e7d22c83f9dfa472fd7e2b63171d63f3e6efd6136f42dbbd81a1",
+  "note": "transfer_notification 0x7362d09c on OWNER wallet 0:326BCA.. from its jetton wallet 0:58594D.. of the master; value 1 nanoTON (JETTON_FORWARD_NANO) so compute phase is skipped and description.aborted is true although the jetton transfer succeeded.",
+  "response": {
+    "transactions": [
+      {
+        "account": "0:326BCAF1F252CA9E3458FE73348566AFE805F7C5B40339277260BCB2FC8762B0",
+        "hash": "wvBs3/Kl59Isg/nfpHL9fitjFx1j8+bv1hNvQtu9gaE=",
+        "lt": "96855562000008",
+        "now": 1789521998,
+        "mc_block_seqno": 85084763,
+        "trace_id": "2Mp320vuxs8IyqbDWyHJfaDAqIe5HxzlEahgah/vZ+Y=",
+        "prev_trans_hash": "ZdDoRK+kO5Me2l8MRMft1WGEP06GQJljT1cN8J1sxfw=",
+        "prev_trans_lt": "96855562000003",
+        "orig_status": "active",
+        "end_status": "active",
+        "total_fees": "0",
+        "total_fees_extra_currencies": {},
+        "description": {
+          "type": "ord",
+          "aborted": true,
+          "destroyed": false,
+          "credit_first": true,
+          "storage_ph": {
+            "storage_fees_collected": "0",
+            "status_change": "unchanged"
+          },
+          "credit_ph": {
+            "credit": "1"
+          },
+          "compute_ph": {
+            "skipped": true,
+            "reason": "no_gas"
+          }
+        },
+        "block_ref": {
+          "workchain": 0,
+          "shard": "8000000000000000",
+          "seqno": 90316870
+        },
+        "in_msg": {
+          "hash": "nrD3IyNx6mxVrBdxEWMu+FTGiJF8JXHOhpObGVMO0ZQ=",
+          "source": "0:58594DDBF5AAE9EFF2BAF115DA69590BE38E07E89E79768915FDA3089C190F6B",
+          "destination": "0:326BCAF1F252CA9E3458FE73348566AFE805F7C5B40339277260BCB2FC8762B0",
+          "value": "1",
+          "value_extra_currencies": {},
+          "fwd_fee": "75735",
+          "ihr_fee": "0",
+          "extra_flags": "0",
+          "created_lt": "96855562000007",
+          "created_at": "1789521998",
+          "opcode": "0x7362d09c",
+          "decoded_opcode": "jetton_notify",
+          "ihr_disabled": true,
+          "bounce": false,
+          "bounced": false,
+          "import_fee": null,
+          "message_content": {
+            "hash": "m+CF+NGFyXv3/cSDSgWmtGXudy1ghh98opWX9GrxKMk=",
+            "body": "te6cckEBAgEARAABYnNi0JwAAAAAAAAAADEARygADbnf9U31hUYB6BY19vAoajVxwmSDa9M+x1SYWt6zC+kBABwAAAAAMzI3OTg5NTY5OcrnXQI=",
+            "decoded": {
+              "@type": "jetton_notify",
+              "query_id": "0",
+              "amount": {
+                "@type": "var_uint",
+                "len": "3",
+                "value": "1049714"
+              },
+              "sender": {
+                "@type": "addr_std",
+                "anycast": {
+                  "@type": "nothing_from_maybe"
+                },
+                "workchain_id": "0",
+                "address": "06DCEFFAA6FAC2A300F40B1AFB7814351AB8E13241B5E99F63AA4C2D6F5985F4"
+              },
+              "forward_payload": {
+                "@type": "second_from_either",
+                "value": {
+                  "@type": "text_comment",
+                  "text": "3279895699"
+                }
+              }
+            }
+          },
+          "init_state": null
+        },
+        "out_msgs": [],
+        "account_state_before": {
+          "hash": "gpNQQ/HkQhSpYs7aDUfX1YaM/GjSWj5DrW6JScd1PKY=",
+          "balance": null,
+          "extra_currencies": null,
+          "account_status": null,
+          "frozen_hash": null,
+          "data_hash": null,
+          "code_hash": null
+        },
+        "account_state_after": {
+          "hash": "dHZm/dbY1jSd27nyZM7uw+T0lRGFWFIOWJ9GR1CpBrM=",
+          "balance": "1342426498",
+          "extra_currencies": {},
+          "account_status": "active",
+          "frozen_hash": null,
+          "data_hash": "zjnlFiV57Chju1OiBZ5Q6qROpAvJES63TJ/Z8jCXmdE=",
+          "code_hash": "/rX/aCDi/w2Ug+fg1iyBfYRniftK5YDIeIZtlZ2r1cA="
+        },
+        "emulated": false,
+        "finality": "finalized"
+      }
+    ],
+    "address_book": {
+      "0:326BCAF1F252CA9E3458FE73348566AFE805F7C5B40339277260BCB2FC8762B0": {
+        "user_friendly": "0QAya8rx8lLKnjRY_nM0hWav6AX3xbQDOSdyYLyy_IdisOvo",
+        "domain": null,
+        "interfaces": ["wallet_v4r2"]
+      },
+      "0:58594DDBF5AAE9EFF2BAF115DA69590BE38E07E89E79768915FDA3089C190F6B": {
+        "user_friendly": "kQBYWU3b9arp7_K68RXaaVkL444H6J55dokV_aMInBkPa8jR",
+        "domain": null,
+        "interfaces": ["jetton_wallet"]
+      }
+    },
+    "code_book": {
+      "/rX/aCDi/w2Ug+fg1iyBfYRniftK5YDIeIZtlZ2r1cA=": {
+        "interfaces": ["wallet_v4r2"],
+        "contracts": [
+          {
+            "catalog_id": "wallets/w4r2.WalletV4r2",
+            "display_name": "WalletV4r2",
+            "links": [
+              {
+                "kind": "docs",
+                "title": "TON Wallet V4 documentation",
+                "url": "https://docs.ton.org/standard/wallets/v4"
+              },
+              {
+                "kind": "source",
+                "title": "TON Wallet V4 source",
+                "url": "https://github.com/ton-blockchain/wallet-contract"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

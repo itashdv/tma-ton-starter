@@ -116,6 +116,23 @@ describe('GET /health with an unreachable database', () => {
 })
 
 describe('createDb defaults', () => {
+  it('routes idle client errors to the handler instead of crashing the process', async () => {
+    const seen: string[] = []
+    const handle = createDb({
+      url: 'postgres://tma:tma@127.0.0.1:1/tma',
+      onError: (error) => seen.push(error.message),
+    })
+    expect(handle.pool.listenerCount('error')).toBe(1)
+    // Without a listener this emit would throw (uncaught 'error' event).
+    expect(() => handle.pool.emit('error', new Error('connection reset'))).not.toThrow()
+    expect(seen).toEqual(['connection reset'])
+    await handle.close()
+
+    const silent = createDb({ url: 'postgres://tma:tma@127.0.0.1:1/tma' })
+    expect(silent.pool.listenerCount('error')).toBe(1)
+    await silent.close()
+  })
+
   it('configures connection and statement timeouts of 2 seconds', async () => {
     const handle = createDb({ url: 'postgres://tma:tma@127.0.0.1:1/tma' })
     const options = handle.pool.options as {

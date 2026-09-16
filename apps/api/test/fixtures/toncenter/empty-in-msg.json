@@ -1,0 +1,98 @@
+{
+  "recordedAt": "2026-09-16T11:12:32.398Z",
+  "network": "testnet",
+  "source": "https://testnet.toncenter.com/api/v3/transactions?hash=19d7285f6815709f391873fb7f1e1d116f481c0174694c51ed16b5b808aca26c",
+  "note": "Elector tick-tock transaction: description.type tick_tock and no inbound message (in_msg empty/null).",
+  "response": {
+    "transactions": [
+      {
+        "account": "-1:3333333333333333333333333333333333333333333333333333333333333333",
+        "hash": "GdcoX2gVcJ85GHP7fx4dEW9IHAF0aUxR7Ra1uAisomw=",
+        "lt": "96940093000001",
+        "now": 1789555755,
+        "mc_block_seqno": 85168864,
+        "trace_id": "GdcoX2gVcJ85GHP7fx4dEW9IHAF0aUxR7Ra1uAisomw=",
+        "prev_trans_hash": "N0Vmc4HGL7wkX5fDV015uZDHLfB+t9kemZzbFA8d7v4=",
+        "prev_trans_lt": "96940092000002",
+        "orig_status": "active",
+        "end_status": "active",
+        "total_fees": "0",
+        "total_fees_extra_currencies": {},
+        "description": {
+          "type": "tick_tock",
+          "aborted": false,
+          "destroyed": false,
+          "is_tock": false,
+          "storage_ph": {
+            "storage_fees_collected": "0",
+            "status_change": "unchanged"
+          },
+          "compute_ph": {
+            "skipped": false,
+            "success": true,
+            "msg_state_used": false,
+            "account_activated": false,
+            "gas_fees": "6464",
+            "gas_used": "0",
+            "gas_limit": "70000000",
+            "mode": 0,
+            "exit_code": 0,
+            "vm_steps": 150,
+            "vm_init_state_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "vm_final_state_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          },
+          "action": {
+            "success": true,
+            "valid": true,
+            "no_funds": false,
+            "status_change": "unchanged",
+            "result_code": 0,
+            "tot_actions": 0,
+            "spec_actions": 0,
+            "skipped_actions": 0,
+            "msgs_created": 0,
+            "action_list_hash": "lqKW0iTyhcZ77pPDD4owkVfw2qNdxbh+QQt4YwoJz8c=",
+            "tot_msg_size": {
+              "cells": "0",
+              "bits": "0"
+            }
+          }
+        },
+        "block_ref": {
+          "workchain": -1,
+          "shard": "8000000000000000",
+          "seqno": 85168864
+        },
+        "in_msg": null,
+        "out_msgs": [],
+        "account_state_before": {
+          "hash": "rPYx+YYN0OW3z2EGekU1Hg2wqp8SkiHnk9J9cYRVR3c=",
+          "balance": "96077504307778382",
+          "extra_currencies": {},
+          "account_status": "active",
+          "frozen_hash": null,
+          "data_hash": "6oOGfr4ohnQem25J+PZygXb7mlM8y3P3DuMCTO54Sfo=",
+          "code_hash": "/r/Vb6fCpQEK6hPHON8MIVXWZw6LBV3TEtI3Lzj3cBs="
+        },
+        "account_state_after": {
+          "hash": "DkZD8KN2j57SsY0VTltdV2W1tRwF2NOXa3kSYPyy50M=",
+          "balance": null,
+          "extra_currencies": null,
+          "account_status": null,
+          "frozen_hash": null,
+          "data_hash": null,
+          "code_hash": null
+        },
+        "emulated": false,
+        "finality": "finalized"
+      }
+    ],
+    "address_book": {
+      "-1:3333333333333333333333333333333333333333333333333333333333333333": {
+        "user_friendly": "kf8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM_BP",
+        "domain": null,
+        "interfaces": null
+      }
+    }
+  }
+}

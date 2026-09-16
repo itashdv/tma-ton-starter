@@ -176,6 +176,10 @@ export const scanCursors = pgTable(
   {
     account: text('account').primaryKey(),
     label: text('label').$type<ScanCursorLabel>().notNull(),
+    /** Head of the account when the worker first saw it; nothing at or below it is ever ingested. */
+    startLt: bigint('start_lt', { mode: 'bigint' })
+      .notNull()
+      .default(sql`0`),
     lastLt: bigint('last_lt', { mode: 'bigint' })
       .notNull()
       .default(sql`0`),

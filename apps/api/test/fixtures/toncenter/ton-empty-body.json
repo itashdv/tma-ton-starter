@@ -1,0 +1,159 @@
+{
+  "recordedAt": "2026-09-16T11:12:15.105Z",
+  "network": "testnet",
+  "source": "https://testnet.toncenter.com/api/v3/transactions?hash=95a7dd071892ad3aebfc33ba468d987180925e611c917be7741c196eb36ea991",
+  "note": "Incoming internal TON transfer with value and an empty body (empty-cell BOC, opcode null) on wallet 0:F0BF51..; not aborted.",
+  "response": {
+    "transactions": [
+      {
+        "account": "0:F0BF51100B5860DE0E9D845371F58F74998155D08B32258DABBB4A2456BCC75B",
+        "hash": "lafdBxiSrTrr/DO6Ro2YcYCSXmEckXvndBwZbrNuqZE=",
+        "lt": "96941872000023",
+        "now": 1789556465,
+        "mc_block_seqno": 85170643,
+        "trace_id": "MIx5AgChyj0koTjt952jCkIP53lm/0bHPRA8eMulblU=",
+        "prev_trans_hash": "Mx+VF9h+6uXbeW/qj8pYgwHAq7kPjs5YPozECANVMpo=",
+        "prev_trans_lt": "96941872000021",
+        "orig_status": "active",
+        "end_status": "active",
+        "total_fees": "38468",
+        "total_fees_extra_currencies": {},
+        "description": {
+          "type": "ord",
+          "aborted": false,
+          "destroyed": false,
+          "credit_first": true,
+          "storage_ph": {
+            "storage_fees_collected": "0",
+            "status_change": "unchanged"
+          },
+          "credit_ph": {
+            "credit": "190426590"
+          },
+          "compute_ph": {
+            "skipped": false,
+            "success": true,
+            "msg_state_used": false,
+            "account_activated": false,
+            "gas_fees": "38468",
+            "gas_used": "577",
+            "gas_limit": "1000000",
+            "mode": 0,
+            "exit_code": 0,
+            "vm_steps": 13,
+            "vm_init_state_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "vm_final_state_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          },
+          "action": {
+            "success": true,
+            "valid": true,
+            "no_funds": false,
+            "status_change": "unchanged",
+            "result_code": 0,
+            "tot_actions": 0,
+            "spec_actions": 0,
+            "skipped_actions": 0,
+            "msgs_created": 0,
+            "action_list_hash": "lqKW0iTyhcZ77pPDD4owkVfw2qNdxbh+QQt4YwoJz8c=",
+            "tot_msg_size": {
+              "cells": "0",
+              "bits": "0"
+            }
+          }
+        },
+        "block_ref": {
+          "workchain": 0,
+          "shard": "8000000000000000",
+          "seqno": 90402407
+        },
+        "in_msg": {
+          "hash": "LL+epHwq4iZEjsnRnHsnMWZj+3aWCnby5bMKUaUdbH4=",
+          "source": "0:6B4D0A4E455CEB005A5999F90177333236E1C07142D9F76EE6011FE036A52803",
+          "destination": "0:F0BF51100B5860DE0E9D845371F58F74998155D08B32258DABBB4A2456BCC75B",
+          "value": "190426590",
+          "value_extra_currencies": {},
+          "fwd_fee": "48890",
+          "ihr_fee": "0",
+          "extra_flags": "0",
+          "created_lt": "96941872000022",
+          "created_at": "1789556465",
+          "opcode": null,
+          "decoded_opcode": null,
+          "ihr_disabled": true,
+          "bounce": false,
+          "bounced": false,
+          "import_fee": null,
+          "message_content": {
+            "hash": "lqKW0iTyhcZ77pPDD4owkVfw2qNdxbh+QQt4YwoJz8c=",
+            "body": "te6cckEBAQEAAgAAAEysuc0=",
+            "decoded": {
+              "@type": "empty_cell"
+            }
+          },
+          "init_state": null
+        },
+        "out_msgs": [],
+        "account_state_before": {
+          "hash": "1xv8D64H/8wt+u8nqNbMjcgdPIdG9kp+ISGiuWjrR94=",
+          "balance": null,
+          "extra_currencies": null,
+          "account_status": null,
+          "frozen_hash": null,
+          "data_hash": null,
+          "code_hash": null
+        },
+        "account_state_after": {
+          "hash": "/XAHESzcW7wQ71qmK+rcCL7RuE7eZNUE+VoSF7NnT/w=",
+          "balance": "1889622914674",
+          "extra_currencies": {},
+          "account_status": "active",
+          "frozen_hash": null,
+          "data_hash": "Y7ZP0or5+BZqttFkgT6qBe4Yhv7I0hFEP3JFPVg3GCc=",
+          "code_hash": "EayteVWEQJDyg78ji8FEmHH3g+fMCXlAjT9IWUg+hSU="
+        },
+        "emulated": false,
+        "finality": "finalized"
+      }
+    ],
+    "address_book": {
+      "0:6B4D0A4E455CEB005A5999F90177333236E1C07142D9F76EE6011FE036A52803": {
+        "user_friendly": "kQBrTQpORVzrAFpZmfkBdzMyNuHAcULZ927mAR_gNqUoA9D7",
+        "domain": null,
+        "interfaces": null
+      },
+      "0:F0BF51100B5860DE0E9D845371F58F74998155D08B32258DABBB4A2456BCC75B": {
+        "user_friendly": "kQDwv1EQC1hg3g6dhFNx9Y90mYFV0IsyJY2ru0okVrzHW3B7",
+        "domain": null,
+        "interfaces": ["wallet_highload_v3r1"]
+      }
+    },
+    "code_book": {
+      "EayteVWEQJDyg78ji8FEmHH3g+fMCXlAjT9IWUg+hSU=": {
+        "interfaces": ["wallet_highload_v3r1"],
+        "contracts": [
+          {
+            "catalog_id": "wallets.WalletHighloadV3r1",
+            "display_name": "WalletHighloadV3r1",
+            "links": [
+              {
+                "kind": "docs",
+                "title": "Highload wallet documentation",
+                "url": "https://docs.ton.org/v3/documentation/smart-contracts/contracts-specs/highload-wallet"
+              },
+              {
+                "kind": "source",
+                "title": "Highload Wallet V3 source",
+                "url": "https://github.com/ton-blockchain/highload-wallet-contract-v3"
+              },
+              {
+                "kind": "spec",
+                "title": "Highload Wallet V3 specification",
+                "url": "https://docs.ton.org/standard/wallets/highload/v3/specification"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

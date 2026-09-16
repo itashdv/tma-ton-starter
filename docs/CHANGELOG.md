@@ -7,6 +7,33 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Stage C: the payment listener. `apps/api/src/worker.ts` is now a real process: it takes a
+  Postgres advisory lock on a dedicated connection (a second instance exits 3), checks that the
+  merchant wallet is active and that the derived USDT jetton wallet and on-chain decimals match
+  the configuration (exit 2 otherwise), registers a scan cursor per account at the account
+  head, and loops scan → expire → notify with a periodic safety re-scan. The scanner reads
+  `/transactions?account&start_lt&sort=asc&limit` per account, consumes only rows with
+  `finality: finalized`, `emulated: false` and a masterchain seqno, classifies them from the
+  raw message body (TON text-comment transfers on the main wallet; successful
+  `internal_transfer` on the merchant jetton wallet for USDT; foreign jettons, mints and
+  unknown layouts land in the ledger as `ignored`), and settles each one in a single database
+  transaction: ledger insert with `ON CONFLICT (tx_hash) DO NOTHING`, `SELECT ... FOR UPDATE`
+  on the order, compare-and-set to `paid`, outbox row for the notification, cursor advance with
+  a `GREATEST` guard. Underpayments, currency mismatches, unknown comments, paid or cancelled
+  orders are recorded with a reason and never credit anything; overpayments and late payments
+  (`paid_late`) are accepted. The notifier claims outbox rows with `FOR UPDATE SKIP LOCKED`,
+  sends plain-text Bot API messages outside any transaction and applies 403/400-final,
+  429-retry_after and exponential 5xx backoff up to 8 attempts. Live toncenter v3 fixtures were
+  recorded from testnet with `pnpm --filter @tma/api tc:record-fixture` and drive the schema
+  and classification tests. Design notes: `docs/PAYMENTS.md`.
+- Migration `0002_scan_cursor_start_lt`: `scan_cursors.start_lt` remembers the account head at
+  registration, so the safety re-scan never ingests history from before the worker's first
+  start. Hardening from review: Telegram message length is counted in UTF-16 units and a
+  too-long text is final rather than retried; 401/404 from the Bot API back off for a minute
+  without charging the row; the pg pool has an error listener (an idle connection drop no
+  longer kills the process); a stop signal is honoured between loop steps, scanner pages and
+  toncenter retries; an aborted transfer with an unknown bounce flag is not credited; a
+  jetton wallet pin without a jetton master is rejected at startup.
 - Stage B: Telegram authentication and the payment flow up to the wallet. The API validates
   raw init data with HMAC-SHA256 on every request (`Authorization: tma <raw>`), upserts the
   Telegram profile, serves the catalogue, and creates orders whose amount, destination and

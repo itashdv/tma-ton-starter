@@ -181,6 +181,20 @@ describe('parseEnv', () => {
     )
   })
 
+  it('rejects a jetton wallet pin without a jetton master to check it against', () => {
+    expect(issuesOf({ ...minimal, MERCHANT_USDT_JETTON_WALLET: TESTNET_USD })).toContainEqual(
+      expect.stringContaining('MERCHANT_USDT_JETTON_WALLET'),
+    )
+    expect(
+      issuesOf({
+        ...minimal,
+        MERCHANT_WALLET: TESTNET_USD,
+        USDT_JETTON_MASTER: TESTNET_USD,
+        MERCHANT_USDT_JETTON_WALLET: TESTNET_USD,
+      }),
+    ).toEqual([])
+  })
+
   it('does not know a USDT_DECIMALS key (decimals live in config/shop.json)', () => {
     expect(ENV_KEYS).not.toContain('USDT_DECIMALS')
     expect(ENV_KEYS).toContain('USDT_JETTON_MASTER')

@@ -1,0 +1,89 @@
+{
+  "recordedAt": "2026-09-16T11:11:18.625Z",
+  "network": "testnet",
+  "source": "https://testnet.toncenter.com/api/v3/accountStates?address=0:F418A04CF196EBC959366844A6CDF53A6FD6FFF1EADAFC892F05210BBA31593E",
+  "note": "Jetton master used as USDT on testnet: status active, digit-string last_transaction_lt.",
+  "response": {
+    "accounts": [
+      {
+        "address": "0:F418A04CF196EBC959366844A6CDF53A6FD6FFF1EADAFC892F05210BBA31593E",
+        "account_state_hash": "NgMF1NweXFs++20mZ7SX0vOHj2POMr9eVKKAkAlIqTg=",
+        "balance": "19213315361",
+        "extra_currencies": {},
+        "status": "active",
+        "last_transaction_hash": "3wVUfchsU+qGz/eWrfngCCTrxn1q6x0PPPEqbn6CsOc=",
+        "last_transaction_lt": "94808841000005",
+        "data_hash": "xs4dHsgGmOKzeAJUOpaRpt2brhU7kkpx01jujrr5lGU=",
+        "code_hash": "GNW254D/C7RRJUwsdg0J1uSFY4zRQHq7lweHUsPBye4=",
+        "data_boc": "te6ccgECEgEABEMAAlFgjrzcKxmIAZqgZIWkSF5NDNOk0vzFrxeptqa5VMKmm4SZHN/CtoMIQAECART/APSkE/S88sgLAwEAEQIBYgQFAvjQAdDTAwFxsI5IE18DgCDXIe1E0NMD+gD6QPpA0QTTHwGEDyGCEBeNRRm6AoIQe92X3roSsfL0gEDXIfoAMBKgQBMDyMsDWPoCAc8WAc8Wye1U4PpA+kAx+gAx9AH6ADH6AAExcPg6AtMfASCCEA+KfqW6joUwNFnbPOAzBgcCASAPEAHyA9M/AQH6APpAIfpEMMAA8uFN7UTQ0wP6APpA+kDRUwnHBSRxsMAAIbHyrVIrxwVQCrHy4ElRFaEgwv/yr/gqVCWQcFRgBBMVA8jLA1j6AgHPFgHPFskhyMsBE/QAEvQAywDJIPkAcHTIywLKB8v/ydAE+kD0AfoAIAgC0CKCEBeNRRm6joQyWts84DQhghBZXwe8uo6EMQHbPOAyIIIQ7tI207qOLzABgEDXIdMD0e1E0NMD+gD6QPpA0TNRQscF8uBKQDMDyMsDWPoCAc8WAc8Wye1U4GwhghDTchWMutyED/LwCgsBmCDXCwCa10vAAQHAAbDysZEw4siCEBeNRRkByx9QCgHLP1AI+gIjzxYBzxYm+gJQB88WyciAGAHLBVAEzxZw+gJAY3dQA8trzMzJRTcJALQhkXKRceL4OSBuk4EkJ5Eg4iFulDGBKHORAeJQI6gToHOBA6Nw+DygAnD4NhKgAXD4NqBzgQQJghAJZgGAcPg3oLzysASAUPsAWAPIywNY+gIBzxYBzxbJ7VQD9O1E0NMD+gD6QPpA0SNysMAC8m0H0z8BAfoAUUGgBPpA+kBTuscF+CpUZOBwVGAEExUDyMsDWPoCAc8WAc8WySHIywET9AAS9ADLAMn5AHB0yMsCygfL/8nQUAzHBRux8uBKCfoAIZJfBOMNJtcLAcAAs5MwbDPjDVUCDA0OAfLtRNDTA/oA+kD6QNEG0z8BAfoA+kD0AdFRQaFSiMcF8uBJJsL/8q/IghB73ZfeAcsfWAHLPwH6AiHPFljPFsnIgBgBywUmzxZw+gIBcVjLaszJA/g5IG6UMIEWn95xgQLycPg4AXD4NqCBGndw+DagvPKwAoBQ+wADDgBgyIIQc2LQnAHLHyUByz9QBPoCWM8WWM8WyciAEAHLBSTPFlj6AgFxWMtqzMmAEfsAAHpQVKH4L6BzgQQJghAJZgGAcPg3tgly+wLIgBABywVQBc8WcPoCcAHLaoIQ1TJ22wHLH1gByz/JgQCC+wBZACADyMsDWPoCAc8WAc8Wye1UACe/2BdqJoaYH9AH0gfSBomfwVIJhAAhvFCPaiaGmB/QB9IH0gaK+BwAgGh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9hLWJhaGRhbmF1L3Rlc3QvbWFpbi90ZXN0Lmpzb24=",
+        "code_boc": "te6ccgECGAEABbsAART/APSkE/S88sgLAQIBYgIDAgLLBAUCASAUFQLz0MtDTAwFxsI47MIAg1yHTHwGCEBeNRRm6kTDhgEDXIfoAMO1E0PoA+kD6QNTU0VBFoUE0yFAF+gJQA88WAc8WzMzJ7VTg+kD6QDH6ADH0AfoAMfoAATFw+DoC0x8BAdM/ARLtRND6APpA+kDU1NEmghBkK30HuuMCJoGBwAdojhkZYOA54tkgUGD+gvAAZY1NVFhxwXy4EkE+kAh+kQwwADy4U36ANTRINDTHwGCEBeNRRm68uBIgEDXIfoA+kAx+kAx+gAg1wsAmtdLwAEBwAGw8rGRMOJUQxsIA/qCEHvdl966juc2OAX6APpA+ChUEgpwVGAEExUDyMsDWPoCAc8WAc8WySHIywET9AAS9ADLAMn5AHB0yMsCygfL/8nQUAjHBfLgShKhRBRQZgPIUAX6AlADzxYBzxbMzMntVPpA0SDXCwHAALORW+MN4CaCECx2uXO64wI1JQoLDAGOIZFykXHi+DkgbpOBJCeRIOIhbpQxgShzkQHiUCOoE6BzgQOjcPg8oAJw+DYSoAFw+Dagc4EECYIQCWYBgHD4N6C88rAlWX8JAOyCEDuaygBw+wL4KEUEcFRgBBMVA8jLA1j6AgHPFgHPFskhyMsBE/QAEvQAywDJIPkAcHTIywLKB8v/ydDIgBgBywUBzxZY+gICmFh3UAPLa8zMlzABcVjLasziyYAR+wBQBaBDFMhQBfoCUAPPFgHPFszMye1UAETIgBABywUBzxZw+gJwActqghDVMnbbAcsfAQHLP8mAQvsAAfwUXwQyNAH6QNIAAQHRlcghzxbJkW3iyIAQAcsFUATPFnD6AnABy2qCENFzVAAByx9QBAHLPyP6RDDAAI41+ChEBHBUYAQTFQPIywNY+gIBzxYBzxbJIcjLARP0ABL0AMsAyfkAcHTIywLKB8v/ydASzxaXMWwScAHLAeL0AMkNBPiCEGUB81S6jiIxNDZRRccF8uBJAvpA0RA0AshQBfoCUAPPFgHPFszMye1U4CWCEPuI4Rm6jiEyNDYD0VExxwXy4EmLAlUSyFAF+gJQA88WAc8WzMzJ7VTgNCSCECNcr1K64wI3I4IQy4YpArrjAjZbIIIQJQjWarrjAmwxDg8QEQAIgFD7AALsMDEyUDPHBfLgSfpA+gDU0SDQ0x8BAYBA1yEhghAPin6luo5NNiCCEFlfB7y6jiwwBPoAMfpAMfQB0SD4OSBulDCBFp/ecYEC8nD4OAFw+DaggRp3cPg2oLzysI4TghDu0jbTupUE0wMx0ZQ08sBI4uLjDVADcBITAEQzUULHBfLgSchQA88WyRNEQMhQBfoCUAPPFgHPFszMye1UAB4wAscF8uBJ1NTRAe1U+wQAGIIQ03IVjLrchA/y8ADOMfoAMfpAMfpAMfQB+gAg1wsAmtdLwAEBwAGw8rGRMOJUQhYhkXKRceL4OSBuk4EkJ5Eg4iFulDGBKHORAeJQI6gToHOBA6Nw+DygAnD4NhKgAXD4NqBzgQQJghAJZgGAcPg3oLzysADAghA7msoAcPsC+ChFBHBUYAQTFQPIywNY+gIBzxYBzxbJIcjLARP0ABL0AMsAySD5AHB0yMsCygfL/8nQyIAYAcsFAc8WWPoCAphYd1ADy2vMzJcwAXFYy2rM4smAEfsAACW9mt9qJofQB9IH0gampoiBIvgkAgJxFhcAha289qJofQB9IH0gampoii+CfBQAuCowAgmKgeRlgax9AQDniwDni2SQ5GWAifoACXoAZYBk/IA4OmRlgWUD5f/k6EAAz68W9qJofQB9IH0gampov5noNsF4OHLr21FNnJfCg7fwrlF5Ap4rYRnDlGJxnk9G7Y90E+YseApBeHdAfpePAaQHEUEbGst3Opa92T+oO7XKhDUBPIxLOskfRYm0eAo4ZGWD+gBkoYBA",
+        "contract_methods": [0, 20, 78683, 103289, 106029],
+        "interfaces": ["jetton_master"]
+      }
+    ],
+    "address_book": {
+      "0:F418A04CF196EBC959366844A6CDF53A6FD6FFF1EADAFC892F05210BBA31593E": {
+        "user_friendly": "kQD0GKBM8ZbryVk2aESmzfU6b9b_8era_IkvBSELujFZPsyy",
+        "domain": null,
+        "interfaces": ["jetton_master"]
+      }
+    },
+    "metadata": {
+      "0:F418A04CF196EBC959366844A6CDF53A6FD6FFF1EADAFC892F05210BBA31593E": {
+        "is_indexed": true,
+        "token_info": [
+          {
+            "valid": true,
+            "type": "jetton_masters",
+            "name": "Testnet USD",
+            "symbol": "USDT",
+            "description": "Testnet Token for Tether USD",
+            "image": "https://cache.tonapi.io/imgproxy/T3PB4s7oprNVaJkwqbGg54nexKE0zzKhcrPv8jcWYzU/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZXRoZXIudG8vaW1hZ2VzL2xvZ29DaXJjbGUucG5n.webp",
+            "is_nsfw": false,
+            "is_scam": false,
+            "extra": {
+              "_image_big": "https://proxy-testnet.toncenter.com/jz1j6NXzdOruiQGWl4QFsCJ3_MPrwRKMsUo4WBlgTlM/pr:big/bG9jYWw6Ly8vZmIvOTgvZmI5ODU3MDBjZDgxYmJjZWE2MDkwODZhYTEzYmRlNzdhZmExYzkwMGVjZWRjYWI5ZmFiOTRjNjg4ZjgzMDZiZQ",
+              "_image_medium": "https://proxy-testnet.toncenter.com/nhF2EoFdLEf2MyU2tltGk40FxsBq16yGgBTln8qi3wM/pr:medium/bG9jYWw6Ly8vZmIvOTgvZmI5ODU3MDBjZDgxYmJjZWE2MDkwODZhYTEzYmRlNzdhZmExYzkwMGVjZWRjYWI5ZmFiOTRjNjg4ZjgzMDZiZQ",
+              "_image_small": "https://proxy-testnet.toncenter.com/A6FjSFMtfrmuEF6TONXCA80rR6TE7eASyN1P-r7Ynes/pr:small/bG9jYWw6Ly8vZmIvOTgvZmI5ODU3MDBjZDgxYmJjZWE2MDkwODZhYTEzYmRlNzdhZmExYzkwMGVjZWRjYWI5ZmFiOTRjNjg4ZjgzMDZiZQ",
+              "address": "0:f418a04cf196ebc959366844a6cdf53a6fd6fff1eadafc892f05210bba31593e",
+              "decimals": "6",
+              "uri": "https://raw.githubusercontent.com/a-bahdanau/test/main/test.json"
+            }
+          }
+        ]
+      }
+    },
+    "code_book": {
+      "GNW254D/C7RRJUwsdg0J1uSFY4zRQHq7lweHUsPBye4=": {
+        "contracts": [
+          {
+            "catalog_id": "jettons.StablecoinMaster",
+            "display_name": "StablecoinMaster",
+            "links": [
+              {
+                "kind": "docs",
+                "title": "TON Jetton comparison",
+                "url": "https://docs.ton.org/blockchain-basics/standard/tokens/jettons/comparison"
+              },
+              {
+                "kind": "source",
+                "title": "TON stablecoin source",
+                "url": "https://github.com/ton-blockchain/stablecoin-contract"
+              },
+              {
+                "kind": "spec",
+                "title": "TEP-74 Jetton standard",
+                "url": "https://github.com/ton-blockchain/TEPs/blob/master/text/0074-jettons-standard.md"
+              },
+              {
+                "kind": "spec",
+                "title": "TEP-89 Jetton wallet discovery",
+                "url": "https://github.com/ton-blockchain/TEPs/blob/master/text/0089-jetton-wallet-discovery.md"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

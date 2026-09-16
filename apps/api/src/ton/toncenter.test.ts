@@ -182,6 +182,46 @@ describe('retry policies', () => {
     })
   })
 
+  it('gives up immediately when the stop signal fires during a backoff pause', async () => {
+    const controller = new AbortController()
+    fake.enqueue('/transactions', { kind: 'status', status: 500 })
+    fake.enqueue('/transactions', { kind: 'status', status: 500 })
+    const stopping = createToncenterClient({
+      baseUrl: fake.url,
+      policy: 'worker',
+      signal: controller.signal,
+      // The real sleep wakes on abort; here the abort happens while "sleeping".
+      sleep: async () => {
+        controller.abort()
+      },
+      random: () => 0.5,
+    })
+    const error = await stopping
+      .getTransactions({ account: '0:AA', limit: 10 })
+      .catch((e: unknown) => e)
+    expect(error).toBeInstanceOf(ToncenterError)
+    expect((error as ToncenterError).kind).toBe('aborted')
+    // One request went out; the four remaining attempts of the worker policy were not made.
+    expect(fake.requests.filter((r) => r.path === '/transactions')).toHaveLength(1)
+  })
+
+  it('cuts a hanging request short when the stop signal fires', async () => {
+    const controller = new AbortController()
+    fake.enqueue('/transactions', { kind: 'hang' })
+    const stopping = createToncenterClient({
+      baseUrl: fake.url,
+      policy: 'worker',
+      signal: controller.signal,
+      random: () => 0.5,
+    })
+    const pending = stopping.getTransactions({ account: '0:AA', limit: 10 })
+    setTimeout(() => controller.abort(), 20)
+    const started = Date.now()
+    const error = await pending.catch((e: unknown) => e)
+    expect((error as ToncenterError).kind).toBe('aborted')
+    expect(Date.now() - started).toBeLessThan(TONCENTER_POLICIES.worker.timeoutMs)
+  })
+
   it('aborts a hanging request and reports a timeout', async () => {
     fake.enqueue('/transactions', { kind: 'hang' })
     fake.enqueue('/transactions', { kind: 'hang' })

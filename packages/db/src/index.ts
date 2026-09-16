@@ -16,6 +16,12 @@ export interface CreateDbOptions {
   statementTimeoutMs?: number
   /** Optional application_name for pg_stat_activity. */
   applicationName?: string
+  /**
+   * Receives errors of idle pooled connections (server restart, network drop). The pool emits
+   * them as `error` events, and without a listener Node treats one as an uncaught exception
+   * and kills the process. Default: stderr.
+   */
+  onError?: (error: Error) => void
 }
 
 export const DEFAULT_CONNECTION_TIMEOUT_MS = 2000
@@ -29,6 +35,13 @@ export function createDb(options: CreateDbOptions) {
     statement_timeout: options.statementTimeoutMs ?? DEFAULT_STATEMENT_TIMEOUT_MS,
     application_name: options.applicationName ?? 'tma',
   })
+  const onError =
+    options.onError ??
+    ((error: Error) => {
+      console.error(`[db] idle client error: ${error.message}`)
+    })
+  // The pool drops the broken client itself; the next query gets a fresh connection.
+  pool.on('error', onError)
   const db = drizzle({ client: pool, schema })
   return {
     db,

@@ -4,7 +4,12 @@ import { buildApp } from './app'
 import { loadRuntime } from './runtime'
 
 const { env, shop } = loadRuntime()
-const handle = createDb({ url: env.DATABASE_URL, applicationName: 'tma-api' })
+const handle = createDb({
+  url: env.DATABASE_URL,
+  applicationName: 'tma-api',
+  // Idle connections drop asynchronously, long after `app` exists.
+  onError: (error) => app.log.error({ err: error }, 'db: idle client error'),
+})
 const app = buildApp({ env, db: handle.db, shop })
 
 const SHUTDOWN_DEADLINE_MS = 10_000

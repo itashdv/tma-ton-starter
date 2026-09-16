@@ -29,9 +29,62 @@ export interface FakeToncenter {
   enqueue: (path: string, response: ScriptedResponse) => void
   /** null makes get_wallet_address fail with a non-zero exit code. */
   setJettonWallet: (address: Address | null) => void
+  /**
+   * The rows `/transactions` serves. The handler applies the real query semantics
+   * (`account`, `start_lt`, `end_lt`, `start_utime`, `hash`, `sort`, `offset`, `limit`), so
+   * paging and cursor behaviour of the scanner are exercised against a faithful model.
+   */
   setTransactions: (rows: unknown[]) => void
+  /** Default account state for any address without a specific one (null = unknown). */
   setAccountState: (account: unknown) => void
+  /** Account state for one address; null answers "no such account" for that address. */
+  setAccountStateFor: (address: string, account: unknown) => void
+  /** Row `/jetton/masters` answers with (null = the indexer does not know the master). */
+  setJettonMaster: (master: unknown) => void
   close: () => Promise<void>
+}
+
+interface TxLike {
+  account?: string
+  lt?: string
+  now?: number
+  hash?: string
+}
+
+/** Uppercase raw form for comparisons; friendly input is accepted too. */
+function normalizeAddress(value: string): string {
+  try {
+    return Address.parse(value).toRawString().toUpperCase()
+  } catch {
+    return value.toUpperCase()
+  }
+}
+
+export function selectTransactions(rows: unknown[], query: URLSearchParams): unknown[] {
+  const account = query.get('account')
+  const hash = query.get('hash')
+  const startLt = query.get('start_lt')
+  const endLt = query.get('end_lt')
+  const startUtime = query.get('start_utime')
+  const sort = query.get('sort') ?? 'desc'
+  const offset = Number(query.get('offset') ?? '0')
+  const limit = Number(query.get('limit') ?? '10')
+
+  const filtered = (rows as TxLike[]).filter((row) => {
+    if (account && normalizeAddress(row.account ?? '') !== normalizeAddress(account)) return false
+    if (hash && row.hash !== hash) return false
+    const lt = BigInt(row.lt ?? '0')
+    if (startLt && lt < BigInt(startLt)) return false
+    if (endLt && lt > BigInt(endLt)) return false
+    if (startUtime && (row.now ?? 0) < Number(startUtime)) return false
+    return true
+  })
+  filtered.sort((a, b) => {
+    const diff = BigInt(a.lt ?? '0') - BigInt(b.lt ?? '0')
+    const order = diff < 0n ? -1 : diff > 0n ? 1 : 0
+    return sort === 'asc' ? order : -order
+  })
+  return filtered.slice(offset, offset + limit)
 }
 
 /**
@@ -68,6 +121,11 @@ export async function startFakeToncenter(): Promise<FakeToncenter> {
     balance: '1000000000',
     last_transaction_lt: '100',
     last_transaction_hash: Buffer.alloc(32, 1).toString('base64'),
+  }
+  const accountStates = new Map<string, unknown>()
+  let jettonMaster: unknown = {
+    address: `0:${'33'.repeat(32)}`,
+    jetton_content: { decimals: '6' },
   }
 
   const server: Server = createServer((req, res) => {
@@ -122,12 +180,17 @@ export async function startFakeToncenter(): Promise<FakeToncenter> {
           ],
         })
       }
-      if (path === '/transactions') return json({ transactions })
-      if (path === '/accountStates') return json({ accounts: accountState ? [accountState] : [] })
+      if (path === '/transactions') {
+        return json({ transactions: selectTransactions(transactions, url.searchParams) })
+      }
+      if (path === '/accountStates') {
+        const address = url.searchParams.get('address')
+        const key = address ? normalizeAddress(address) : ''
+        const state = accountStates.has(key) ? accountStates.get(key) : accountState
+        return json({ accounts: state ? [state] : [] })
+      }
       if (path === '/jetton/masters') {
-        return json({
-          jetton_masters: [{ address: `0:${'33'.repeat(32)}`, jetton_content: { decimals: '6' } }],
-        })
+        return json({ jetton_masters: jettonMaster ? [jettonMaster] : [] })
       }
       return json({ error: 'not found' }, 404)
     })
@@ -152,6 +215,12 @@ export async function startFakeToncenter(): Promise<FakeToncenter> {
     },
     setAccountState: (account) => {
       accountState = account
+    },
+    setAccountStateFor: (address, account) => {
+      accountStates.set(normalizeAddress(address), account)
+    },
+    setJettonMaster: (master) => {
+      jettonMaster = master
     },
     close: () =>
       new Promise<void>((resolve, reject) => {

@@ -1,0 +1,161 @@
+{
+  "recordedAt": "2026-09-16T11:12:06.877Z",
+  "network": "testnet",
+  "source": "https://testnet.toncenter.com/api/v3/transactions?hash=81e47ae7a3ee10e37bc1ac5fcfb18b9749a0d9943de495af1c8a8d8f0cb682f9",
+  "note": "Plain TON transfer 2 TON with text comment (opcode 0x00000000, decoded_opcode text_comment) from the testgiver bot to wallet 0:27B966..; not aborted.",
+  "response": {
+    "transactions": [
+      {
+        "account": "0:27B9660FE288DAB147C266AD6622D221F43EB7F70A24CE60C409D0BC21410E1B",
+        "hash": "geR656PuEON7waxfz7GLl0mg2ZQ95JWvHIqNjwy2gvk=",
+        "lt": "96941877000004",
+        "now": 1789556467,
+        "mc_block_seqno": 85170648,
+        "trace_id": "fpzRBnK8d7BlrX/cLxlu6dEwWckkH1jPeUcTiO0sZqs=",
+        "prev_trans_hash": "8sgNF8Q05Uq5tal/ovIKhZetQULUr0WcfBlvJ8HC958=",
+        "prev_trans_lt": "96941877000003",
+        "orig_status": "active",
+        "end_status": "active",
+        "total_fees": "51868",
+        "total_fees_extra_currencies": {},
+        "description": {
+          "type": "ord",
+          "aborted": false,
+          "destroyed": false,
+          "credit_first": true,
+          "storage_ph": {
+            "storage_fees_collected": "0",
+            "status_change": "unchanged"
+          },
+          "credit_ph": {
+            "credit": "2000000000"
+          },
+          "compute_ph": {
+            "skipped": false,
+            "success": true,
+            "msg_state_used": false,
+            "account_activated": false,
+            "gas_fees": "51868",
+            "gas_used": "778",
+            "gas_limit": "1000000",
+            "mode": 0,
+            "exit_code": 0,
+            "vm_steps": 23,
+            "vm_init_state_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "vm_final_state_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          },
+          "action": {
+            "success": true,
+            "valid": true,
+            "no_funds": false,
+            "status_change": "unchanged",
+            "result_code": 0,
+            "tot_actions": 0,
+            "spec_actions": 0,
+            "skipped_actions": 0,
+            "msgs_created": 0,
+            "action_list_hash": "lqKW0iTyhcZ77pPDD4owkVfw2qNdxbh+QQt4YwoJz8c=",
+            "tot_msg_size": {
+              "cells": "0",
+              "bits": "0"
+            }
+          }
+        },
+        "block_ref": {
+          "workchain": 0,
+          "shard": "8000000000000000",
+          "seqno": 90402412
+        },
+        "in_msg": {
+          "hash": "TDabrDrei9Tre5/vY9O5sChz9z2OhYh8XHsPFY9Omsc=",
+          "source": "0:92112D13658A9C56482882E8486FC88C128E1CBDA130988AD4E6A6D082737C7E",
+          "destination": "0:27B9660FE288DAB147C266AD6622D221F43EB7F70A24CE60C409D0BC21410E1B",
+          "value": "2000000000",
+          "value_extra_currencies": {},
+          "fwd_fee": "44446",
+          "ihr_fee": "0",
+          "extra_flags": "0",
+          "created_lt": "96941877000003",
+          "created_at": "1789556467",
+          "opcode": "0x00000000",
+          "decoded_opcode": "text_comment",
+          "ihr_disabled": true,
+          "bounce": false,
+          "bounced": false,
+          "import_fee": null,
+          "message_content": {
+            "hash": "CMMIRQMWLHXJjH1x5SzZUOdTkBKcBkGwThU2UacDJt4=",
+            "body": "te6cckEBAQEAJAAARAAAAABodHRwczovL3QubWUvdGVzdGdpdmVyX3Rvbl9ib3TWi7fW",
+            "decoded": {
+              "@type": "text_comment",
+              "comment": "https://t.me/testgiver_ton_bot",
+              "type": "text_comment"
+            }
+          },
+          "init_state": null
+        },
+        "out_msgs": [],
+        "account_state_before": {
+          "hash": "JXaxLUrIahnXJDQHkAljMWGhNTRnZCqCmIm0q+rtb50=",
+          "balance": null,
+          "extra_currencies": null,
+          "account_status": null,
+          "frozen_hash": null,
+          "data_hash": null,
+          "code_hash": null
+        },
+        "account_state_after": {
+          "hash": "MgGRbm4CschMvZ0DaT513TOPEploCT9OhRGS/oeVVLE=",
+          "balance": "15485365076925",
+          "extra_currencies": {},
+          "account_status": "active",
+          "frozen_hash": null,
+          "data_hash": "tW1qFTCEkbdhbz9c67xE5kS/LoTtPHhajnqIBqLtT78=",
+          "code_hash": "IINLe3KxEhR+Gy+0V7hOdNGjDwT3N9T2KmaOlVLSty8="
+        },
+        "emulated": false,
+        "finality": "finalized"
+      }
+    ],
+    "address_book": {
+      "0:27B9660FE288DAB147C266AD6622D221F43EB7F70A24CE60C409D0BC21410E1B": {
+        "user_friendly": "0QAnuWYP4ojasUfCZq1mItIh9D639wokzmDECdC8IUEOG0jS",
+        "domain": null,
+        "interfaces": ["wallet_v5r1"]
+      },
+      "0:92112D13658A9C56482882E8486FC88C128E1CBDA130988AD4E6A6D082737C7E": {
+        "user_friendly": "kQCSES0TZYqcVkgoguhIb8iMEo4cvaEwmIrU5qbQgnN8ftBF",
+        "domain": null,
+        "interfaces": ["wallet_highload_v2"]
+      }
+    },
+    "code_book": {
+      "IINLe3KxEhR+Gy+0V7hOdNGjDwT3N9T2KmaOlVLSty8=": {
+        "interfaces": ["wallet_v5r1"],
+        "contracts": [
+          {
+            "catalog_id": "wallets.WalletV5r1",
+            "display_name": "WalletV5r1",
+            "links": [
+              {
+                "kind": "docs",
+                "title": "TON Wallet V5 documentation",
+                "url": "https://docs.ton.org/blockchain-basics/standard/wallets/v5"
+              },
+              {
+                "kind": "source",
+                "title": "TON Wallet V5 source",
+                "url": "https://github.com/ton-blockchain/wallet-contract-v5"
+              },
+              {
+                "kind": "spec",
+                "title": "Wallet V5 TL-B types",
+                "url": "https://github.com/ton-blockchain/wallet-contract-v5/blob/main/types.tlb"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+ALTER TABLE "scan_cursors" ADD COLUMN "start_lt" bigint DEFAULT 0 NOT NULL;

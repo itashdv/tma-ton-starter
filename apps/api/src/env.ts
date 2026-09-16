@@ -178,6 +178,10 @@ export function parseEnv(raw: Record<string, string | undefined>): Env {
   if (env.JETTON_FORWARD_NANO <= 0n) {
     issues.push('JETTON_FORWARD_NANO: must be > 0 so the merchant wallet receives a notification')
   }
+  if (merchantUsdtJettonWallet && !usdtMaster) {
+    // A pin that nothing checks against would silently express a wrong expectation.
+    issues.push('MERCHANT_USDT_JETTON_WALLET: requires USDT_JETTON_MASTER to be set')
+  }
   if (issues.length > 0) throw new EnvError(issues)
 
   return {

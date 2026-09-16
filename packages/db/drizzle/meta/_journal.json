@@ -15,6 +15,13 @@
       "when": 1789496018653,
       "tag": "0001_scan_cursor_label_check",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789560416873,
+      "tag": "0002_scan_cursor_start_lt",
+      "breakpoints": true
     }
   ]
 }

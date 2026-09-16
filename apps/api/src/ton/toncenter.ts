@@ -38,7 +38,8 @@ export function backoffDelay(policy: ToncenterPolicy, attempt: number, random: n
   return Math.round(capped * (0.5 + random * 0.5))
 }
 
-export type ToncenterErrorKind = 'http' | 'network' | 'timeout' | 'schema' | 'blocked' | 'contract'
+export type ToncenterErrorKind =
+  'http' | 'network' | 'timeout' | 'schema' | 'blocked' | 'contract' | 'aborted'
 
 export class ToncenterError extends Error {
   readonly kind: ToncenterErrorKind
@@ -65,6 +66,11 @@ export interface ToncenterClientOptions {
   userAgent?: string
   /** Overrides the policy timeout; tests use a short one instead of waiting seconds. */
   timeoutMs?: number
+  /**
+   * Process-level stop signal. The worker policy may spend a minute in retries and backoff;
+   * an aborted signal ends the call at the next attempt boundary instead.
+   */
+  signal?: AbortSignal
 }
 
 export interface GetTransactionsParams {
@@ -77,7 +83,21 @@ export interface GetTransactionsParams {
   sort?: 'asc' | 'desc'
 }
 
-const defaultSleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
+/** setTimeout that also wakes up on abort, so a stop request does not wait out a backoff. */
+function sleepUnlessAborted(ms: number, signal: AbortSignal | undefined): Promise<void> {
+  return new Promise<void>((resolve) => {
+    if (signal?.aborted) return resolve()
+    const onAbort = () => {
+      clearTimeout(timer)
+      resolve()
+    }
+    const timer = setTimeout(() => {
+      signal?.removeEventListener('abort', onAbort)
+      resolve()
+    }, ms)
+    signal?.addEventListener('abort', onAbort, { once: true })
+  })
+}
 
 function isRetryableStatus(status: number): boolean {
   return status === 429 || status >= 500
@@ -91,6 +111,7 @@ export class ToncenterClient {
   private readonly sleep: (ms: number) => Promise<void>
   private readonly random: () => number
   private readonly userAgent: string
+  private readonly signal: AbortSignal | undefined
 
   constructor(options: ToncenterClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/+$/, '')
@@ -98,7 +119,8 @@ export class ToncenterClient {
     const policy = TONCENTER_POLICIES[options.policy ?? 'request']
     this.policy = options.timeoutMs ? { ...policy, timeoutMs: options.timeoutMs } : policy
     this.doFetch = options.fetch ?? globalThis.fetch
-    this.sleep = options.sleep ?? defaultSleep
+    this.signal = options.signal
+    this.sleep = options.sleep ?? ((ms) => sleepUnlessAborted(ms, this.signal))
     this.random = options.random ?? Math.random
     // Cloudflare answers 403 to unusual user agents, so send an explicit one.
     this.userAgent = options.userAgent ?? 'tma-ton-starter/0.1'
@@ -106,6 +128,11 @@ export class ToncenterClient {
 
   private delayFor(attempt: number): number {
     return backoffDelay(this.policy, attempt, this.random())
+  }
+
+  private requestSignal(): AbortSignal {
+    const timeout = AbortSignal.timeout(this.policy.timeoutMs)
+    return this.signal ? AbortSignal.any([this.signal, timeout]) : timeout
   }
 
   private async call(
@@ -123,11 +150,19 @@ export class ToncenterClient {
 
     let lastError: ToncenterError | null = null
     for (let attempt = 1; attempt <= this.policy.attempts; attempt += 1) {
+      if (this.signal?.aborted) {
+        throw new ToncenterError(
+          'aborted',
+          `toncenter ${path} aborted: worker stopping`,
+          null,
+          attempt,
+        )
+      }
       try {
         const response = await this.doFetch(url, {
           ...rest,
           headers,
-          signal: AbortSignal.timeout(this.policy.timeoutMs),
+          signal: this.requestSignal(),
         })
         if (response.ok) return (await response.json()) as unknown
         const text = (await response.text().catch(() => '')).slice(0, 300)
@@ -151,6 +186,14 @@ export class ToncenterClient {
         // Errors raised inside the try block are the fatal ones (blocked, non-retryable
         // status); network and timeout failures are retried.
         if (error instanceof ToncenterError) throw error
+        if (this.signal?.aborted) {
+          throw new ToncenterError(
+            'aborted',
+            `toncenter ${path} aborted: worker stopping`,
+            null,
+            attempt,
+          )
+        }
         const timedOut = error instanceof Error && error.name === 'TimeoutError'
         lastError = new ToncenterError(
           timedOut ? 'timeout' : 'network',
