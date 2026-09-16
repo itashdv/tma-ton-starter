@@ -3,6 +3,9 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import type { NextConfig } from 'next'
 
+import { buildContentSecurityPolicy } from './src/lib/csp'
+import { apiRewrites } from './src/lib/dev-proxy'
+
 // Next reads env files only from apps/web. The project keeps one .env at the repository root,
 // so load it here (existing variables win) before NEXT_PUBLIC_* values are inlined.
 dotenv.config({ path: path.join(import.meta.dirname, '../../.env'), quiet: true })
@@ -17,10 +20,26 @@ const nextConfig: NextConfig = {
     // Lower peak memory during builds on small (2 GB) servers.
     webpackMemoryOptimizations: true,
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: buildContentSecurityPolicy({
+              apiUrl: process.env.NEXT_PUBLIC_API_URL ?? '',
+              isDev,
+            }),
+          },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+        ],
+      },
+    ]
+  },
   async rewrites() {
-    // One dev origin for web and API so a single tunnel exposes both to a real Telegram client.
-    if (!isDev) return []
-    return [{ source: '/api/:path*', destination: 'http://127.0.0.1:3001/:path*' }]
+    return apiRewrites(isDev)
   },
 }
 

@@ -63,6 +63,8 @@ describe('repository invariants', () => {
       expect(documented).not.toContain(devOnly)
     }
     expect(envKeys('.env.test.example')).toEqual(['TEST_DATABASE_URL'])
+    // The development-only key is documented exactly where the app reads it from.
+    expect(envKeys('apps/web/.env.local.example')).toEqual([...WEB_DEV_ONLY_KEYS])
   })
 
   it('never drops tables or columns in migrations', () => {
@@ -76,9 +78,13 @@ describe('repository invariants', () => {
     }
   })
 
-  it('is MIT licensed and documents changes', () => {
+  it('is MIT licensed and documents every stage that shipped', () => {
     expect(read('LICENSE')).toContain('MIT License')
-    expect(read('docs/CHANGELOG.md')).toContain('Stage A')
+    const changelog = read('docs/CHANGELOG.md')
+    // Bump this when a stage lands, so a stage without a changelog entry fails here.
+    for (const stage of ['Stage A', 'Stage B']) {
+      expect(changelog, stage).toContain(stage)
+    }
   })
 
   it('pins exact dependency versions in every workspace', () => {

@@ -4,8 +4,10 @@
 через TonConnect, без собственных смарт-контрактов. Платёж подтверждается только по данным
 блокчейна (toncenter v3), а всё клиентское (товары, тексты, брендинг) живёт в `config/`.
 
-Состояние: этап A (скелет, БД, health, dev-скрипты). Каталог, оплата, слушатель платежей,
-админка и деплой добавляются следующими этапами; см. `docs/CHANGELOG.md`.
+Состояние: этапы A и B (скелет, БД, авторизация по initData, каталог, заказы и оплата через
+TonConnect). Слушатель платежей, админка и деплой добавляются следующими этапами;
+см. `docs/CHANGELOG.md`. Заказ подтверждается только слушателем платежей по данным
+блокчейна, поэтому до этапа C заказы остаются в статусе `pending`.
 
 ## Структура
 
@@ -53,6 +55,32 @@ curl http://127.0.0.1:3001/health
 | `pnpm db:generate`      | сгенерировать миграцию из `packages/db/src/schema.ts`                            |
 | `pnpm db:migrate`       | применить миграции к `DATABASE_URL`                                              |
 | `pnpm db:seed`          | загрузить товары из `config/products.json` (`--overwrite` для пересинхронизации) |
+
+## Telegram и кошелёк
+
+1. Создайте бота в @BotFather, включите Mini App и задайте URL витрины.
+   Токен бота положите в `TELEGRAM_BOT_TOKEN`, имя бота и short name Mini App — в
+   `TELEGRAM_BOT_USERNAME` и `TELEGRAM_MINIAPP_SHORT_NAME`.
+2. Манифест TonConnect отдаётся по адресу `/tonconnect-manifest.json` и собирается из
+   `config/shop.json` и `NEXT_PUBLIC_APP_URL`. Хост в поле `url` должен совпадать с тем,
+   с которого открывается Mini App, иначе кошелёк откажется подключаться.
+3. Иконка для кошелька берётся из `config/branding/` и отдаётся по `/branding/<файл>`.
+4. `MERCHANT_WALLET` должен быть задеплоен (сделайте с него один исходящий перевод).
+   Для USDT укажите `USDT_JETTON_MASTER`; на testnet это ваш тестовый jetton.
+
+### Разработка вне Telegram
+
+Вне Telegram нет launch-параметров, поэтому SDK не запустится. Сгенерируйте подписанные
+initData и положите их в `apps/web/.env.local`:
+
+```bash
+pnpm --filter @tma/api tg:sign-initdata -- --user-id <ваш telegram id>
+cp apps/web/.env.local.example apps/web/.env.local   # вставьте строку в NEXT_PUBLIC_TG_MOCK_INIT_DATA
+```
+
+Подпись проверяется бэкендом как обычно: это фикстура, а не обход авторизации. Для проверки
+в настоящем Telegram поднимите туннель на порт 3000: витрина проксирует `/api` на `:3001`,
+поэтому наружу нужен один адрес.
 
 ## Конфигурация
 

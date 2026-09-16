@@ -5,6 +5,8 @@ import { createTestDb } from '@tma/db/testing'
 import type { FastifyInstance } from 'fastify'
 
 import { buildApp, type AppDeps } from '../../src/app'
+import { createJettonWalletResolver } from '../../src/ton/jetton-wallet'
+import { createToncenterClient } from '../../src/ton/toncenter'
 import { loadShopConfig, type LoadedShopConfig } from '../../src/config/shop'
 import { parseEnv, type Env } from '../../src/env'
 
@@ -40,15 +42,33 @@ export interface TestApp {
 
 /** App wired to the test database; call `close()` in afterAll. */
 export function buildTestApp(
-  overrides: Partial<AppDeps> & { env?: Env } = {},
+  overrides: Partial<AppDeps> & {
+    env?: Env
+    toncenterUrl?: string
+    /** Short timeout for the "toncenter hangs" paths, so tests stay fast. */
+    toncenterTimeoutMs?: number
+  } = {},
   handle: DbHandle = createTestDb(),
 ): TestApp {
+  const env = overrides.env ?? testEnv()
+  const ton =
+    overrides.ton ??
+    createToncenterClient({
+      baseUrl: overrides.toncenterUrl ?? env.toncenterUrl,
+      policy: 'request',
+      sleep: async () => {},
+      ...(overrides.toncenterTimeoutMs ? { timeoutMs: overrides.toncenterTimeoutMs } : {}),
+    })
   const app = buildApp(
     {
-      env: overrides.env ?? testEnv(),
+      env,
       db: overrides.db ?? handle.db,
       shop: overrides.shop ?? testShop(),
       now: overrides.now,
+      ton,
+      jettonWallets: overrides.jettonWallets ?? createJettonWalletResolver(ton),
+      newOrderId: overrides.newOrderId,
+      newQueryId: overrides.newQueryId ?? (() => 7n),
     },
     { logger: false },
   )

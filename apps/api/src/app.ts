@@ -1,12 +1,19 @@
 import cors from '@fastify/cors'
 import type { Db } from '@tma/db'
+import { generateOrderId } from '@tma/shared'
 import Fastify, { type FastifyInstance, type FastifyServerOptions } from 'fastify'
 import { ZodError } from 'zod'
 
 import type { LoadedShopConfig } from './config/shop'
 import type { Env } from './env'
 import { ApiError } from './errors'
+import { authPlugin } from './plugins/auth'
 import { healthRoutes } from './routes/health'
+import { meRoutes } from './routes/me'
+import { orderRoutes } from './routes/orders'
+import { productRoutes } from './routes/products'
+import { createJettonWalletResolver, type JettonWalletResolver } from './ton/jetton-wallet'
+import { createToncenterClient, type ToncenterClient } from './ton/toncenter'
 
 export interface AppDeps {
   env: Env
@@ -14,10 +21,17 @@ export interface AppDeps {
   shop: LoadedShopConfig
   /** Injectable clock for deterministic tests. */
   now?: () => Date
+  /** toncenter client used on the request path (short timeouts, few retries). */
+  ton?: ToncenterClient
+  jettonWallets?: JettonWalletResolver
+  newOrderId?: () => string
+  newQueryId?: () => bigint
 }
 
 export interface BuildAppOptions {
   logger?: FastifyServerOptions['logger']
+  /** A ready-made pino instance; Fastify 5 takes it separately from logger options. */
+  loggerInstance?: FastifyServerOptions['loggerInstance']
 }
 
 declare module 'fastify' {
@@ -52,7 +66,7 @@ function prettyLogsAvailable(): boolean {
   }
 }
 
-function defaultLogger(env: Env): FastifyServerOptions['logger'] {
+export function defaultLogger(env: Env): FastifyServerOptions['logger'] {
   const base = { level: env.LOG_LEVEL, redact: ['req.headers.authorization'] }
   if (env.NODE_ENV === 'development' && prettyLogsAvailable()) {
     return { ...base, transport: { target: 'pino-pretty', options: { colorize: true } } }
@@ -62,12 +76,30 @@ function defaultLogger(env: Env): FastifyServerOptions['logger'] {
 
 export function buildApp(deps: AppDeps, options: BuildAppOptions = {}): FastifyInstance {
   const app = Fastify({
-    logger: options.logger ?? defaultLogger(deps.env),
+    ...(options.loggerInstance
+      ? { loggerInstance: options.loggerInstance }
+      : { logger: options.logger ?? defaultLogger(deps.env) }),
     // Behind nginx: take client ip and protocol from X-Forwarded-* headers.
     trustProxy: true,
   })
 
-  app.decorate('deps', { ...deps, now: deps.now ?? (() => new Date()) })
+  const ton =
+    deps.ton ??
+    createToncenterClient({
+      baseUrl: deps.env.toncenterUrl,
+      apiKey: deps.env.TONCENTER_API_KEY,
+      policy: 'request',
+    })
+  app.decorate('deps', {
+    ...deps,
+    now: deps.now ?? (() => new Date()),
+    ton,
+    jettonWallets: deps.jettonWallets ?? createJettonWalletResolver(ton),
+    newOrderId: deps.newOrderId ?? generateOrderId,
+    newQueryId:
+      deps.newQueryId ??
+      (() => BigInt(`0x${Buffer.from(crypto.getRandomValues(new Uint8Array(8))).toString('hex')}`)),
+  })
 
   const origins = deps.env.CORS_ORIGINS
   app.register(cors, {
@@ -109,7 +141,11 @@ export function buildApp(deps: AppDeps, options: BuildAppOptions = {}): FastifyI
     reply.code(known.statusCode).send({ error: { code: known.code, message: known.message } })
   })
 
+  app.register(authPlugin)
   app.register(healthRoutes)
+  app.register(productRoutes)
+  app.register(meRoutes)
+  app.register(orderRoutes)
 
   return app
 }

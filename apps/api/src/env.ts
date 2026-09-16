@@ -1,6 +1,9 @@
-import { Address } from '@ton/core'
 import type { ShopConfig } from '@tma/shared'
 import { z } from 'zod'
+
+import { parseAddress, toRawAddress, type ParsedAddress } from './ton/address'
+
+export { parseAddress, toRawAddress, type ParsedAddress }
 
 /**
  * Environment is parsed once at startup into a typed object. Every problem is reported in one
@@ -99,15 +102,6 @@ export const ENV_KEYS = Object.keys(rawEnvSchema.shape) as (keyof RawEnv)[]
 
 export type TonNetworkId = '-239' | '-3'
 
-export interface ParsedAddress {
-  /** `wc:HEX` with uppercase hex, the form toncenter uses. */
-  raw: string
-  address: Address
-  /** Flags of the friendly form the operator wrote, null for raw input. */
-  testOnly: boolean | null
-  bounceable: boolean | null
-}
-
 export interface Env extends RawEnv {
   tonNetworkId: TonNetworkId
   isTestnet: boolean
@@ -118,31 +112,6 @@ export interface Env extends RawEnv {
   usdtMaster: ParsedAddress | null
   usdtMasterRaw: string | null
   merchantUsdtJettonWallet: ParsedAddress | null
-}
-
-export function toRawAddress(address: Address): string {
-  const [wc, hex] = address.toRawString().split(':')
-  return `${wc}:${(hex ?? '').toUpperCase()}`
-}
-
-/** `Address.parseRaw` silently truncates junk and accepts a NaN workchain, so gate it first. */
-const RAW_ADDRESS_RE = /^(0|-1):[0-9a-fA-F]{64}$/
-
-export function parseAddress(value: string): ParsedAddress {
-  if (Address.isFriendly(value)) {
-    const parsed = Address.parseFriendly(value)
-    return {
-      raw: toRawAddress(parsed.address),
-      address: parsed.address,
-      testOnly: parsed.isTestOnly,
-      bounceable: parsed.isBounceable,
-    }
-  }
-  if (!RAW_ADDRESS_RE.test(value)) {
-    throw new Error(`invalid raw address "${value}": expected <0|-1>:<64 hex chars>`)
-  }
-  const address = Address.parseRaw(value)
-  return { raw: toRawAddress(address), address, testOnly: null, bounceable: null }
 }
 
 function stripBlank(raw: Record<string, string | undefined>): Record<string, string> {

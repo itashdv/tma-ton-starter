@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from 'react'
 
 import { shopConfig } from '@/lib/shop-config'
 
+import { Providers } from './providers'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -24,7 +25,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       // Brand colour from config/shop.json drives the primary palette (see globals.css).
       style={{ '--brand': shopConfig.branding.accentColor } as CSSProperties}
     >
-      <body className="min-h-dvh antialiased">{children}</body>
+      <body className="min-h-dvh antialiased">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }

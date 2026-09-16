@@ -7,6 +7,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Stage B: Telegram authentication and the payment flow up to the wallet. The API validates
+  raw init data with HMAC-SHA256 on every request (`Authorization: tma <raw>`), upserts the
+  Telegram profile, serves the catalogue, and creates orders whose amount, destination and
+  16-character payment comment are decided server-side. TonConnect messages are built on the
+  API (`@ton/core` stays out of the browser bundle, enforced by a test): a plain text comment
+  for TON and a TEP-74 jetton transfer addressed to the payer jetton wallet for USDT, with the
+  payer wallet resolved once through toncenter and cached. The storefront (catalogue, pay
+  button, order page with polling, write-access hint) runs behind a Content-Security-Policy
+  that lists the Telegram frame ancestors and the wallet bridges, and serves the TonConnect
+  manifest and branding from `config/`. `POST /orders/:id/submitted` stores the TEP-467
+  normalized external message hash for progress display only: nothing here confirms a payment.
+- `pnpm --filter @tma/api tg:sign-initdata` prints signed init data for development outside
+  Telegram; the API still checks the signature, so there is no authentication bypass.
+- The storefront speaks the language of the Telegram user when the shop ships it, keeps polling
+  an order through a dropped connection, tells the user to reopen the app when the launch
+  credential expires, refuses a wallet on the wrong network before creating an order, and falls
+  back to the "open from Telegram" panel instead of a blank page when the SDK throws. A
+  notification deep link (`?startapp=order_<id>`) opens that order.
+
 - Stage A: monorepo skeleton (pnpm workspaces, shared TypeScript config, ESLint, Prettier,
   Vitest projects unit/web/integration/repo), config layer (`config/shop.json`,
   `config/products.json`, `config/i18n`), `@tma/shared` (amount arithmetic in bigint,
