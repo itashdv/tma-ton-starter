@@ -7,6 +7,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Stage D: the admin area. `/admin/*` is one Fastify plugin whose `onRequest` hooks
+  (`requireTma`, then `requireAdmin`) guard every route registered under it, including
+  unknown paths, so a forgotten per-route hook cannot open anything; the auth matrix test
+  walks the live route table (recorded by an `onRoute` hook) and checks 401 / 403 / pass for
+  each method, plus 403 for everyone when `TELEGRAM_ADMIN_IDS` is empty. Endpoints: catalogue
+  management with the delivery payload and inactive products (`GET/POST /admin/products`,
+  `PATCH /admin/products/:id`; prices arrive in the smallest units, at least one price is
+  required, a taken slug answers 409), orders with keyset pagination by `(created_at, id)`
+  (`GET /admin/orders`, `GET /admin/orders/:id` with payments and notifications,
+  `POST .../cancel` for pending and expired orders, `POST .../resend-notification` for paid
+  ones), the ledger (`GET /admin/payments` with a status filter and tonviewer links,
+  `POST /admin/payments/:id/attach`, which runs the worker's own settlement: an underpayment
+  needs `force`, a foreign asset is never accepted, and a refused attach leaves the row
+  untouched) and `GET /admin/health` (per-account cursors with lag, staleness and the last
+  error, ledger and outbox counters, friendly merchant addresses). The storefront gets
+  `/admin` (health, products, orders, payments) behind a client-side guard that only mirrors
+  the API decision, and an admin link in the header for administrators.
 - Stage C: the payment listener. `apps/api/src/worker.ts` is now a real process: it takes a
   Postgres advisory lock on a dedicated connection (a second instance exits 3), checks that the
   merchant wallet is active and that the derived USDT jetton wallet and on-chain decimals match

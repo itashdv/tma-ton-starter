@@ -8,6 +8,7 @@ import type { LoadedShopConfig } from './config/shop'
 import type { Env } from './env'
 import { ApiError } from './errors'
 import { authPlugin } from './plugins/auth'
+import { adminRoutes } from './routes/admin/index'
 import { healthRoutes } from './routes/health'
 import { meRoutes } from './routes/me'
 import { orderRoutes } from './routes/orders'
@@ -34,9 +35,17 @@ export interface BuildAppOptions {
   loggerInstance?: FastifyServerOptions['loggerInstance']
 }
 
+/** One registered route; the admin auth matrix test walks this list. */
+export interface RouteListEntry {
+  /** Upper-case HTTP method. */
+  method: string
+  url: string
+}
+
 declare module 'fastify' {
   interface FastifyInstance {
     deps: Required<AppDeps>
+    routeList: readonly RouteListEntry[]
   }
 }
 
@@ -90,6 +99,15 @@ export function buildApp(deps: AppDeps, options: BuildAppOptions = {}): FastifyI
       apiKey: deps.env.TONCENTER_API_KEY,
       policy: 'request',
     })
+  // Recorded at registration time from every context, so tests can assert properties of the
+  // whole route table instead of a hand-maintained list that drifts.
+  const routeList: RouteListEntry[] = []
+  app.addHook('onRoute', (route) => {
+    const methods = Array.isArray(route.method) ? route.method : [route.method]
+    for (const method of methods) routeList.push({ method: method.toUpperCase(), url: route.url })
+  })
+  app.decorate('routeList', routeList)
+
   app.decorate('deps', {
     ...deps,
     now: deps.now ?? (() => new Date()),
@@ -146,6 +164,7 @@ export function buildApp(deps: AppDeps, options: BuildAppOptions = {}): FastifyI
   app.register(productRoutes)
   app.register(meRoutes)
   app.register(orderRoutes)
+  app.register(adminRoutes, { prefix: '/admin' })
 
   return app
 }

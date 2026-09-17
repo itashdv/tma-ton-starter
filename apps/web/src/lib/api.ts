@@ -32,6 +32,7 @@ export interface ApiClientOptions {
 export interface ApiClient {
   get: <T>(path: string, options?: { auth?: boolean }) => Promise<T>
   post: <T>(path: string, body: unknown) => Promise<T>
+  patch: <T>(path: string, body: unknown) => Promise<T>
 }
 
 export function createApiClient(options: ApiClientOptions): ApiClient {
@@ -77,5 +78,6 @@ export function createApiClient(options: ApiClientOptions): ApiClient {
     get: <T>(path: string, opts?: { auth?: boolean }) =>
       request<T>('GET', path, undefined, opts?.auth ?? true),
     post: <T>(path: string, body: unknown) => request<T>('POST', path, body),
+    patch: <T>(path: string, body: unknown) => request<T>('PATCH', path, body),
   }
 }

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { AdminLink } from '@/components/admin-link'
 import { ProductList } from '@/components/product-list'
 import { WriteAccessHint } from '@/components/write-access-hint'
 import { t } from '@/lib/i18n'
@@ -22,9 +23,12 @@ export default function HomePage() {
           <h2 id="catalog-title" className="text-lg font-medium">
             {t(locale, 'catalog.title')}
           </h2>
-          <Link href="/orders" className="text-sm text-primary underline">
-            {t(locale, 'orders.title')}
-          </Link>
+          <div className="flex items-baseline gap-3">
+            <AdminLink />
+            <Link href="/orders" className="text-sm text-primary underline">
+              {t(locale, 'orders.title')}
+            </Link>
+          </div>
         </div>
         <ProductList />
       </section>

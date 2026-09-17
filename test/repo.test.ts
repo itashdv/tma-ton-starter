@@ -82,7 +82,7 @@ describe('repository invariants', () => {
     expect(read('LICENSE')).toContain('MIT License')
     const changelog = read('docs/CHANGELOG.md')
     // Bump this when a stage lands, so a stage without a changelog entry fails here.
-    for (const stage of ['Stage A', 'Stage B', 'Stage C']) {
+    for (const stage of ['Stage A', 'Stage B', 'Stage C', 'Stage D']) {
       expect(changelog, stage).toContain(stage)
     }
   })
